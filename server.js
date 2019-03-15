@@ -9,8 +9,8 @@ const posts = require('./routes/api/posts');
 const profile = require('./routes/api/profile');
 
 // Body parser middleware
-//app.use(bodyparser.urlencoded({ extended: false}));
-//app.use(bodyparser.json());
+app.use(bodyparser.urlencoded({ extended: false}));
+app.use(bodyparser.json());
 
 //Connect to db
 mongoose
