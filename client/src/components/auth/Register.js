@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
 import axios from 'axios';
 import classnames from 'classnames';
+import {connect} from 'react-redux';
+import {registerUser} from '../../actions/authActions';
+
 
  class Register extends Component {
   constructor(){
@@ -28,9 +31,10 @@ import classnames from 'classnames';
     password2: this.state.password2
   };
 
-    axios.post('/api/users/register', newUser)
+    this.props.registerUser(newUser);
+    /* axios.post('/api/users/register', newUser)
       .then(res => console.log(res.data))
-      .catch(err => this.setState({errors:err.response.data}));
+      .catch(err => this.setState({errors:err.response.data})); */
   }
 
   onChange(e){
@@ -40,7 +44,7 @@ import classnames from 'classnames';
   render() {
 
     const {errors} = this.state;
-    //const errors = this.state.errors;
+    //const errors = this.state.errors; this is the same as before
 
     return (
   <div className="register">
@@ -51,12 +55,13 @@ import classnames from 'classnames';
           <p className="lead text-center">Create your DevConnector account</p>
           <form noValidate onSubmit={this.onSubmit}>
             <div className="form-group">
-              <input type="text" className={classnames('form-control form-control-lg', {'is-invalid':errors.name})}   placeholder="Name" name="name" 
+              <input type="text" className={classnames('form-control form-control-lg', {'is-invalid':errors.name})} placeholder="Name" name="name" 
               value={this.state.name} //this is property
               onChange={this.onChange} //two way binding (this is event)
               required />
               {errors.name && (
-                <div className="invalis-feedback">{errors.name}
+                <div className="invalid-feedback">
+                {errors.name}
                 </div>
               )}
             </div>
@@ -65,7 +70,8 @@ import classnames from 'classnames';
               onChange={this.onChange} />
               <small className="form-text text-muted">This site uses Gravatar so if you want a profile image, use a Gravatar email</small>
               {errors.email && (
-                <div className="invalis-feedback">{errors.email}
+                <div className="invalid-feedback">
+                {errors.email}
                 </div>
               )}
             </div>
@@ -73,7 +79,8 @@ import classnames from 'classnames';
               <input type="password" className={classnames('form-control form-control-lg', {'is-invalid':errors.password})} placeholder="Password" name="password" value={this.state.password} 
               onChange={this.onChange}/>
               {errors.password && (
-                <div className="invalis-feedback">{errors.password}
+                <div className="invalid-feedback">
+                {errors.password}
                 </div>
               )}
             </div>
@@ -81,7 +88,8 @@ import classnames from 'classnames';
               <input type="password" className={classnames('form-control form-control-lg', {'is-invalid':errors.password2})} placeholder="Confirm Password" name="password2" value={this.state.password2} 
               onChange={this.onChange} />
               {errors.password2 && (
-                <div className="invalis-feedback">{errors.password2}
+                <div className="invalid-feedback">
+                {errors.password2}
                 </div>
               )}
             </div>
@@ -95,4 +103,4 @@ import classnames from 'classnames';
   }
 }
 
-export default Register;
+export default connect(null, {registerUser})(Register);
